@@ -1,0 +1,24 @@
+version: '3.8'
+
+networks:
+  redis:
+    name: redis
+
+services:
+  redis:
+    image: redis:7.0.5
+    container_name: redis
+    networks:
+      - redis
+
+  admin:
+    image: rediscommander/redis-commander:latest
+    container_name: redis-commander
+    environment:
+      REDIS_HOSTS: local:redis:6379
+    ports:
+      - "8081:8081"
+    networks:
+      - redis
+    depends_on:
+      - redis
